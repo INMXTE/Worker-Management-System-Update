@@ -25,7 +25,7 @@ const Layout = () => {
   const location = useLocation();
 
   const menuItems = [
-    { icon: Home, label: "Dashboard", path: "/" },
+    { icon: Home, label: "Dashboard", path: "/dashboard" },
     { icon: Users, label: "Workers", path: "/workers" },
     { icon: Clock, label: "Clock In", path: "/clock-in" },
     { icon: Building2, label: "Headcount", path: "/headcount" },
@@ -35,7 +35,7 @@ const Layout = () => {
 
   // Filter menu items based on user role
   const filteredMenuItems = user?.role === "worker" 
-    ? menuItems.filter(item => !["Workers", "Departments"].includes(item.label))
+    ? menuItems.filter(item => !["Dashboard", "Workers", "Headcount", "Payroll"].includes(item.label))
     : menuItems;
 
   return (

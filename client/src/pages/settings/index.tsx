@@ -14,6 +14,7 @@ import { Pencil, Camera } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DocumentUpload from "@/components/DocumentUpload";
+import FacialRecognition from "@/components/FacialRecognition"; // Import FacialRecognition component
 
 export default function Settings() {
   const { user, profile, updateProfile } = useAuth();
@@ -193,37 +194,29 @@ export default function Settings() {
           <DocumentUpload />
         </TabsContent>
 
-        <TabsContent value="facial-recognition">
+        <TabsContent value="facial-recognition" className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Facial Recognition Setup</CardTitle>
               <CardDescription>
-                Set up facial recognition for clock-in and headcount verification
+                Enroll your face for quick and secure verification
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-12">
-                <Camera className="h-12 w-12 text-muted-foreground mb-4" />
-                <div className="text-center">
-                  <h3 className="font-semibold mb-2">Capture Your Photo</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Make sure you're in a well-lit area and looking directly at the camera
-                  </p>
-                  <Button>
-                    <Camera className="w-4 h-4 mr-2" />
-                    Start Camera
-                  </Button>
-                </div>
-              </div>
+            <CardContent>
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  Your facial data will be securely stored and used only for verification purposes.
+                  You can update your facial data at any time by re-enrolling.
+                </p>
 
-              <div className="space-y-2">
-                <h4 className="font-medium">Guidelines</h4>
-                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                  <li>Ensure proper lighting - avoid backlighting</li>
-                  <li>Remove glasses, masks, or other face coverings</li>
-                  <li>Keep a neutral expression</li>
-                  <li>Face the camera directly</li>
-                </ul>
+                <FacialRecognition 
+                  mode="enroll"
+                  showGuidelines={true}
+                  onVerificationComplete={(success) => {
+                    // TODO: Handle enrollment completion
+                    console.log('Enrollment complete:', success);
+                  }}
+                />
               </div>
             </CardContent>
           </Card>
