@@ -27,9 +27,8 @@ const Layout = () => {
   const menuItems = [
     { icon: Home, label: "Dashboard", path: "/" },
     { icon: Users, label: "Workers", path: "/workers" },
-    { icon: Building2, label: "Departments", path: "/departments" },
-    { icon: Clock, label: "Headcount", path: "/headcount" },
-    { icon: FileText, label: "Documents", path: "/documents" },
+    { icon: Clock, label: "Clock In", path: "/clock-in" },
+    { icon: Building2, label: "Headcount", path: "/headcount" },
     { icon: CreditCard, label: "Payroll", path: "/payroll" },
     { icon: Settings, label: "Settings", path: "/settings" },
   ];

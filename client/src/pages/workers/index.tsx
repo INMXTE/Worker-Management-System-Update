@@ -23,7 +23,6 @@ export default function Workers() {
       <Tabs defaultValue="list" className="space-y-4">
         <TabsList>
           <TabsTrigger value="list">Worker List</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
           <TabsTrigger value="attendance">Attendance</TabsTrigger>
         </TabsList>
 
@@ -33,23 +32,12 @@ export default function Workers() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="documents">
-          <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">Document Management</h2>
-            <p className="text-muted-foreground">
-              View and manage worker documents
-            </p>
-            {/* Document management component will go here */}
-          </Card>
-        </TabsContent>
-
         <TabsContent value="attendance">
           <Card className="p-6">
             <h2 className="text-lg font-semibold mb-4">Attendance Records</h2>
             <p className="text-muted-foreground">
-              View worker attendance and headcount records
+              View worker attendance and clock-in records
             </p>
-            {/* Attendance records component will go here */}
           </Card>
         </TabsContent>
       </Tabs>

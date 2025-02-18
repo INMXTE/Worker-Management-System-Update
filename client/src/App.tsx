@@ -13,6 +13,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import AuthPage from "@/pages/auth/auth";
 import Dashboard from "@/pages/dashboard";
 import Workers from "@/pages/workers";
+import ClockIn from "@/pages/clock-in";
 import Headcount from "@/pages/headcount";
 import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
@@ -36,6 +37,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/workers" element={<Workers />} />
+                <Route path="/clock-in" element={<ClockIn />} />
                 <Route path="/headcount" element={<Headcount />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>
