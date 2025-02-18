@@ -10,12 +10,20 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState<"worker" | "hr_admin">("worker");
   const { signIn, signUp, loading, user } = useAuth();
   const navigate = useNavigate();
 
@@ -31,7 +39,7 @@ export default function AuthPage() {
       if (isLogin) {
         await signIn(email, password);
       } else {
-        await signUp(email, password, "worker");
+        await signUp(email, password, role);
       }
     } catch (error) {
       console.error("Authentication error:", error);
@@ -75,6 +83,20 @@ export default function AuthPage() {
                     required
                   />
                 </div>
+                {!isLogin && (
+                  <div className="space-y-2">
+                    <Label htmlFor="role">Role</Label>
+                    <Select value={role} onValueChange={(value: "worker" | "hr_admin") => setRole(value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select your role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="worker">Worker</SelectItem>
+                        <SelectItem value="hr_admin">HR Admin</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading
                     ? "Loading..."

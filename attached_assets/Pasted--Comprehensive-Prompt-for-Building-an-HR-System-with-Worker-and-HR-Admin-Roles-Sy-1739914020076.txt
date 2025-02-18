@@ -1,0 +1,97 @@
+**Comprehensive Prompt for Building an HR System with Worker and HR Admin Roles**
+
+---
+
+### **System Overview**  
+Develop a secure, role-based HR management system where users register as **Workers** or **HR Admins**. The system includes:  
+1. **Worker Features**: Profile management, document storage, facial recognition for authentication/clock-ins, internal memo access, and clock-in logging.  
+2. **Admin Features**: Dashboard analytics, payroll processing, worker management, memo broadcasting, and real-time headcount tracking via facial recognition.  
+
+---
+
+### **Core Requirements**  
+
+#### **1. User Registration & Authentication**  
+- **Role Selection**: Users choose **Worker** or **HR Admin** during registration (admins require approval/verification).  
+- **Secure Login**: Multi-factor authentication (MFA) and password encryption.  
+- **Facial Data Storage**: Workers upload a facial image via profile page (webcam capture or file upload). Store images securely (encrypted storage).  
+
+#### **2. Worker Interface**  
+- **Profile Management**: Edit personal details (name, contact, role, skills).  
+- **Documents Section**:  
+  - Upload/view/delete certificates (PDF, PNG, DOC; max 10MB/file).  
+  - Categorize documents (e.g., "Certifications," "Contracts").  
+- **Clock-In System**:  
+  - Facial recognition scan to log clock-in/out (match against stored image).  
+  - Display timestamps and location (if enabled).  
+- **Memo Inbox**: View internal memos from HR (read/unread status).  
+- **Headcount Verification**: On-demand facial scan to confirm presence (logs visible to admins).  
+
+#### **3. HR Admin Interface**  
+- **Dashboard**:  
+  - Live stats: Total workers, active clock-ins, pending payrolls, memo engagement.  
+  - Charts for attendance trends, department headcounts.  
+- **Worker Management**:  
+  - Searchable list of workers with filters (department, role).  
+  - Access worker profiles, documents, and clock-in logs.  
+  - Deactivate/activate accounts.  
+- **Payroll Processing**:  
+  - Calculate salaries, deductions, bonuses.  
+  - Generate/download payslips (PDF).  
+  - Send notifications upon completion.  
+- **Memo Broadcast**: Create/edit/delete memos; target specific teams or all workers.  
+- **Headcount Tracking**:  
+  - View real-time facial recognition matches/mismatches.  
+  - Export headcount reports (CSV/PDF).  
+
+#### **4. Facial Recognition System**  
+- **Integration**: Use a pre-trained ML model (e.g., OpenCV, AWS Rekognition) or custom solution.  
+- **Clock-In Workflow**:  
+  1. Worker scans face via webcam.  
+  2. System checks for match (confidence threshold ≥95%).  
+  3. On match: Log timestamp, location, and worker ID.  
+  4. On mismatch: Allow 2 retries; lock account after 3 failures.  
+- **Security**: Biometric data encrypted; no third-party sharing.  
+
+#### **5. Security & Compliance**  
+- **Role-Based Access Control (RBAC)**: Admins cannot register as workers.  
+- **GDPR/CCPA Compliance**: Consent for facial data collection; anonymization options.  
+- **Audit Logs**: Track admin actions (e.g., payroll edits, memo deletions).  
+
+#### **6. Additional Features**  
+- **Notifications**: Email/SMS alerts for memos, payroll, or failed logins.  
+- **Mobile Responsiveness**: Optimize for clock-ins via mobile devices.  
+- **APIs**: Webcam access for facial scans, geolocation (optional for clock-ins).  
+
+---
+
+### **Technical Specifications**  
+- **Frontend**: React.js/Angular with responsive UI.  
+- **Backend**: Node.js/Django (REST API).  
+- **Database**: PostgreSQL/MySQL with tables for `users`, `documents`, `clock_logs`, `memos`, `payrolls`.  
+- **Cloud Storage**: AWS S3/Google Cloud for documents and facial images.  
+- **Facial Recognition**: Python/OpenCV or TensorFlow.js for browser-based scanning.  
+
+---
+
+### **Deliverables**  
+1. Role-based authentication flow.  
+2. Worker profile + document management modules.  
+3. Facial recognition clock-in/headcount system.  
+4. Admin dashboard with live analytics.  
+5. Payroll processing and memo broadcasting tools.  
+6. Compliance documentation (data privacy, encryption standards).  
+
+---
+
+### **Success Metrics**  
+- 99% accuracy in facial recognition matches.  
+- <2-second response time for clock-in logging.  
+- 90% user satisfaction (workers/admins) in usability tests.  
+
+---
+
+**Next Steps**:  
+- Prioritize facial recognition integration and security audits.  
+- Conduct UAT with sample worker/admin personas.  
+- Draft user guides and API documentation.
