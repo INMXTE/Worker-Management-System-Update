@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, Outlet } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import {
   Home,
@@ -18,11 +18,8 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { signOut, user, profile } = useAuth();
   const location = useLocation();
@@ -66,9 +63,9 @@ const Layout = ({ children }: LayoutProps) => {
 
           <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
             {filteredMenuItems.map((item) => (
-              <a
+              <Link
                 key={item.path}
-                href={item.path}
+                to={item.path}
                 className={cn(
                   "flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors",
                   location.pathname === item.path
@@ -78,7 +75,7 @@ const Layout = ({ children }: LayoutProps) => {
               >
                 <item.icon className="w-5 h-5" />
                 <span>{item.label}</span>
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -95,7 +92,7 @@ const Layout = ({ children }: LayoutProps) => {
                   {profile?.full_name || user?.email}
                 </p>
                 <p className="text-sm text-gray-500 capitalize">
-                  {user?.role.replace('_', ' ')}
+                  {user?.role?.replace('_', ' ')}
                 </p>
               </div>
             </div>
@@ -145,7 +142,7 @@ const Layout = ({ children }: LayoutProps) => {
 
         {/* Page Content */}
         <main className="p-6 max-w-7xl mx-auto">
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>

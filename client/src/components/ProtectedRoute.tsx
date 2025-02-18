@@ -1,9 +1,9 @@
-import React, { PropsWithChildren } from "react";
-import { Navigate } from "react-router-dom";
+import React from "react";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { Loader2 } from "lucide-react";
 
-export default function ProtectedRoute({ children }: PropsWithChildren) {
+export default function ProtectedRoute() {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -18,5 +18,5 @@ export default function ProtectedRoute({ children }: PropsWithChildren) {
     return <Navigate to="/auth" replace />;
   }
 
-  return <>{children}</>;
+  return <Outlet />;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./lib/queryClient";
 import { AuthProvider } from "./lib/auth";
@@ -14,6 +14,7 @@ import AuthPage from "@/pages/auth/auth";
 import Dashboard from "@/pages/dashboard";
 import Workers from "@/pages/workers";
 import Headcount from "@/pages/headcount";
+import Settings from "@/pages/settings";
 import NotFound from "@/pages/not-found";
 
 function App() {
@@ -22,44 +23,25 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            {/* Public Routes */}
-            <Route path="/auth" element={<AuthPage />} />
+            {/* Auth Route - Redirect to dashboard if already logged in */}
+            <Route 
+              path="/auth" 
+              element={
+                <AuthPage />
+              } 
+            />
 
             {/* Protected Routes */}
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Dashboard />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
+            <Route element={<ProtectedRoute />}>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/workers" element={<Workers />} />
+                <Route path="/headcount" element={<Headcount />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
+            </Route>
 
-            <Route
-              path="/workers"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Workers />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/headcount"
-              element={
-                <ProtectedRoute>
-                  <Layout>
-                    <Headcount />
-                  </Layout>
-                </ProtectedRoute>
-              }
-            />
-
-            {/* 404 Route */}
+            {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
