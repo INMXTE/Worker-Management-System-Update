@@ -13,6 +13,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import AuthPage from "@/pages/auth/auth";
 import Dashboard from "@/pages/dashboard";
 import Workers from "@/pages/workers";
+import Headcount from "@/pages/headcount";
 import NotFound from "@/pages/not-found";
 
 function App() {
@@ -42,6 +43,17 @@ function App() {
                 <ProtectedRoute>
                   <Layout>
                     <Workers />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/headcount"
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <Headcount />
                   </Layout>
                 </ProtectedRoute>
               }
