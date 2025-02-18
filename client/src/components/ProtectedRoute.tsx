@@ -1,7 +1,7 @@
-import { PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { Loader2 } from "lucide-react";
-import { Redirect } from "wouter";
 
 export default function ProtectedRoute({ children }: PropsWithChildren) {
   const { user, loading } = useAuth();
@@ -15,7 +15,7 @@ export default function ProtectedRoute({ children }: PropsWithChildren) {
   }
 
   if (!user) {
-    return <Redirect to="/auth" />;
+    return <Navigate to="/auth" replace />;
   }
 
   return <>{children}</>;

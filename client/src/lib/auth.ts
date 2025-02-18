@@ -1,19 +1,19 @@
-import { createContext, ReactNode, useContext } from "react";
+import React, { createContext, ReactNode, useContext } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { User, Profile, InsertUser } from "@shared/schema";
+import { User, Profile } from "@shared/schema";
 import { getQueryFn, apiRequest, queryClient } from "./queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-type AuthContextType = {
+interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
   error: Error | null;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, role: string) => Promise<void>;
+  signUp: (email: string, password: string, role: "worker" | "hr_admin") => Promise<void>;
   signOut: () => Promise<void>;
   updateProfile: (data: Partial<Profile>) => Promise<void>;
-};
+}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   });
 
   const signUpMutation = useMutation({
-    mutationFn: async (data: InsertUser) => {
+    mutationFn: async (data: { email: string; password: string; role: "worker" | "hr_admin" }) => {
       const res = await apiRequest("POST", "/api/auth/register", data);
       return res.json();
     },
@@ -104,22 +104,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
   });
 
-  const contextValue = {
+  const contextValue: AuthContextType = {
     user: user || null,
     profile: profile || null,
     loading: loading || profileLoading,
     error,
     signIn: (email: string, password: string) => signInMutation.mutateAsync({ email, password }),
-    signUp: (email: string, password: string, role: "worker" | "hr_admin") => signUpMutation.mutateAsync({ email, password, role }),
+    signUp: (email: string, password: string, role: "worker" | "hr_admin") => 
+      signUpMutation.mutateAsync({ email, password, role }),
     signOut: () => signOutMutation.mutateAsync(),
     updateProfile: (data: Partial<Profile>) => updateProfileMutation.mutateAsync(data),
   };
 
-  return (
-    <AuthContext.Provider value={contextValue}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return React.createElement(AuthContext.Provider, { value: contextValue }, children);
 }
 
 export function useAuth() {
