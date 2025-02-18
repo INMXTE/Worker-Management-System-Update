@@ -10,8 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Pencil } from "lucide-react";
+import { Pencil, Camera } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DocumentUpload from "@/components/DocumentUpload";
 
 export default function Settings() {
   const { user, profile, updateProfile } = useAuth();
@@ -45,140 +47,188 @@ export default function Settings() {
         </p>
       </div>
 
-      <div className="grid gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <div className="space-y-1">
-              <CardTitle>Personal Information</CardTitle>
+      <Tabs defaultValue="profile" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="documents">Documents</TabsTrigger>
+          <TabsTrigger value="facial-recognition">Facial Recognition</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="profile">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div className="space-y-1">
+                <CardTitle>Personal Information</CardTitle>
+                <CardDescription>
+                  Update your personal details and contact information
+                </CardDescription>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                <Pencil className="w-4 h-4 mr-2" />
+                {isEditing ? "Cancel" : "Edit"}
+              </Button>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid gap-4 md:grid-cols-2">
+                  <div className="space-y-2">
+                    <Label htmlFor="full_name">Full Name</Label>
+                    <Input
+                      id="full_name"
+                      value={formData.full_name}
+                      onChange={(e) =>
+                        setFormData({ ...formData, full_name: e.target.value })
+                      }
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      id="email"
+                      value={user?.email}
+                      disabled
+                      className="bg-gray-50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="department">Department</Label>
+                    <Input
+                      id="department"
+                      value={formData.department}
+                      onChange={(e) =>
+                        setFormData({ ...formData, department: e.target.value })
+                      }
+                      disabled={!isEditing}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="position">Position</Label>
+                    <Input
+                      id="position"
+                      value={formData.position}
+                      onChange={(e) =>
+                        setFormData({ ...formData, position: e.target.value })
+                      }
+                      disabled={!isEditing}
+                    />
+                  </div>
+                </div>
+
+                <Separator className="my-6" />
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Contact Details</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        value={formData.phone}
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                        disabled={!isEditing}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="address">Address</Label>
+                      <Input
+                        id="address"
+                        value={formData.address}
+                        onChange={(e) =>
+                          setFormData({ ...formData, address: e.target.value })
+                        }
+                        disabled={!isEditing}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Separator className="my-6" />
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-medium">Financial Information</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="tax_id">Tax ID</Label>
+                      <Input
+                        id="tax_id"
+                        value={formData.tax_id}
+                        onChange={(e) =>
+                          setFormData({ ...formData, tax_id: e.target.value })
+                        }
+                        disabled={!isEditing}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="bank_account">Bank Account</Label>
+                      <Input
+                        id="bank_account"
+                        value={formData.bank_account}
+                        onChange={(e) =>
+                          setFormData({ ...formData, bank_account: e.target.value })
+                        }
+                        disabled={!isEditing}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {isEditing && (
+                  <div className="flex justify-end space-x-2">
+                    <Button type="submit">Save Changes</Button>
+                  </div>
+                )}
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <DocumentUpload />
+        </TabsContent>
+
+        <TabsContent value="facial-recognition">
+          <Card>
+            <CardHeader>
+              <CardTitle>Facial Recognition Setup</CardTitle>
               <CardDescription>
-                Update your personal details and contact information
+                Set up facial recognition for clock-in and headcount verification
               </CardDescription>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsEditing(!isEditing)}
-            >
-              <Pencil className="w-4 h-4 mr-2" />
-              {isEditing ? "Cancel" : "Edit"}
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="full_name">Full Name</Label>
-                  <Input
-                    id="full_name"
-                    value={formData.full_name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, full_name: e.target.value })
-                    }
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    value={user?.email}
-                    disabled
-                    className="bg-gray-50"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="department">Department</Label>
-                  <Input
-                    id="department"
-                    value={formData.department}
-                    onChange={(e) =>
-                      setFormData({ ...formData, department: e.target.value })
-                    }
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="position">Position</Label>
-                  <Input
-                    id="position"
-                    value={formData.position}
-                    onChange={(e) =>
-                      setFormData({ ...formData, position: e.target.value })
-                    }
-                    disabled={!isEditing}
-                  />
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-12">
+                <Camera className="h-12 w-12 text-muted-foreground mb-4" />
+                <div className="text-center">
+                  <h3 className="font-semibold mb-2">Capture Your Photo</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Make sure you're in a well-lit area and looking directly at the camera
+                  </p>
+                  <Button>
+                    <Camera className="w-4 h-4 mr-2" />
+                    Start Camera
+                  </Button>
                 </div>
               </div>
 
-              <Separator className="my-6" />
-
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium">Contact Details</h3>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <Input
-                      id="phone"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="address">Address</Label>
-                    <Input
-                      id="address"
-                      value={formData.address}
-                      onChange={(e) =>
-                        setFormData({ ...formData, address: e.target.value })
-                      }
-                      disabled={!isEditing}
-                    />
-                  </div>
-                </div>
+              <div className="space-y-2">
+                <h4 className="font-medium">Guidelines</h4>
+                <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                  <li>Ensure proper lighting - avoid backlighting</li>
+                  <li>Remove glasses, masks, or other face coverings</li>
+                  <li>Keep a neutral expression</li>
+                  <li>Face the camera directly</li>
+                </ul>
               </div>
-
-              <Separator className="my-6" />
-
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium">Financial Information</h3>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="tax_id">Tax ID</Label>
-                    <Input
-                      id="tax_id"
-                      value={formData.tax_id}
-                      onChange={(e) =>
-                        setFormData({ ...formData, tax_id: e.target.value })
-                      }
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="bank_account">Bank Account</Label>
-                    <Input
-                      id="bank_account"
-                      value={formData.bank_account}
-                      onChange={(e) =>
-                        setFormData({ ...formData, bank_account: e.target.value })
-                      }
-                      disabled={!isEditing}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {isEditing && (
-                <div className="flex justify-end space-x-2">
-                  <Button type="submit">Save Changes</Button>
-                </div>
-              )}
-            </form>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
